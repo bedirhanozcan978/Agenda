@@ -17,7 +17,15 @@
     --color-red: #D36F6F;
     --color-purple: #CC6FD3;
     --color-yellow: #F4BC43;
-    --color-grap: #A1A1A1;
+    --color-gray: #A1A1A1;
 
     --font-lalezar: Lalezar, cursive;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
