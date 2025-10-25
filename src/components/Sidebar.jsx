@@ -3,7 +3,7 @@ import Calendar from "./Calendar";
 import TagList from "./TagList";
 import ArrowDown from '../assets/img/arrow-to-line.svg?react';
 
-export default function Sidebar() {
+export default function Sidebar({tags}) {
   
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -26,7 +26,7 @@ export default function Sidebar() {
 
     <button className="px-4 text-xl text-ocean">Add Tag +</button>
 
-    <TagList></TagList>
+    <TagList tags={tags}></TagList>
 
   </aside>
 

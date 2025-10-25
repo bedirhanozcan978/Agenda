@@ -1,6 +1,7 @@
 import { useRef } from "react";
+import React, { useState } from "react";
 
-export default function TagList() {
+export default function TagList({tags}) {
 
   const scrollRef = useRef(null);
 
@@ -21,7 +22,7 @@ export default function TagList() {
     const y = e.pageY - el.offsetTop;
     const walk = (y - el.startY)
     el.scrollTop = el.scrollTopStart - walk;
-  };
+  };     
 
   return (
     <div className="relative w-full max-w-md mx-auto py-5 select-none">
@@ -36,42 +37,14 @@ export default function TagList() {
         onMouseMove={handleMouseMove}
         className="overflow-y-auto max-h-50 flex flex-col -my-5 space-y-2 px-4 scrollbar-hide cursor-grab active:cursor-grabbing"
       >
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-green">#</p>
-          <p>All</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-cyan">#</p>
-          <p>Personal</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-red">#</p>
-          <p>Work</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-purple">#</p>
-          <p>Shopping</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-yellow">#</p>
-          <p>Hobbies</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-gray">#</p>
-          <p>Finances</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-gray">#</p>
-          <p>Dummytag</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-gray">#</p>
-          <p>Dummytag</p>
-        </div>
-        <div className="flex flex-row text-xl">
-          <p className="mr-3 text-gray">#</p>
-          <p>Dummytag</p>
-        </div>
+        { tags && tags.map((tag) => (
+          <div key = {tag.id} className="flex flex-row text-xl">
+            <p style={{ color: tag.color }} className="mr-3">#</p>
+            <p>{tag.name}</p>
+          </div>
+          ))
+        }
+
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 h-2 pointer-events-none bg-gradient-to-t from-black/20 to-transparent"></div>
