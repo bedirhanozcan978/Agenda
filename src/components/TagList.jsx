@@ -45,7 +45,7 @@ export default function TagList({tags, setTags}) {
   const handleAddTag = (newTag) => {
     const tagWithId = { ...newTag, id: Date.now() };
     setTags((prev) => [...prev, tagWithId]);
-    setIsAddModalOpen(false);
+    setAddModalOpen(false);
   };
 
   // Edit Tag Function
@@ -59,7 +59,7 @@ export default function TagList({tags, setTags}) {
   // Delete Tag Function
   const handleDeleteTag = (tagId) => {
   setTags((prevTags) => prevTags.filter((tag) => tag.id !== tagId));
-  setEditTagModalOpen(false); // modalı kapat
+  setEditTagModalOpen(false);
   };
 
   return (
