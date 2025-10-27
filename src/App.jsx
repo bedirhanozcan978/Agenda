@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <div className="flex h-screen bg-sand text-gray-900">
-      <Sidebar tags={tags}/>
+      <Sidebar tags={tags} setTags={setTags}/>
       <div className="flex flex-col flex-1">
         <Header />
         <DayView />

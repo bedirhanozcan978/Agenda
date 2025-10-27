@@ -3,7 +3,7 @@ import Calendar from "./Calendar";
 import TagList from "./TagList";
 import ArrowDown from '../assets/img/arrow-to-line.svg?react';
 
-export default function Sidebar({tags}) {
+export default function Sidebar({tags, setTags}) {
   
   const [isOpen, setIsOpen] = useState(false);
   const toggleSidebar = () => setIsOpen(!isOpen);
@@ -24,7 +24,7 @@ export default function Sidebar({tags}) {
       
     <Calendar></Calendar>
 
-    <TagList tags={tags}></TagList>
+    <TagList tags={tags} setTags={setTags}></TagList>
 
   </aside>
 
