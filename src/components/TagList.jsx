@@ -25,6 +25,10 @@ export default function TagList({tags}) {
   };     
 
   return (
+  <>  
+  
+    <button className="px-4 text-xl text-ocean">Add Tag +</button>
+    
     <div className="relative w-full max-w-md mx-auto py-5 select-none">
 
       <div className="absolute top-0 left-0 right-0 h-2 pointer-events-none bg-gradient-to-b from-black/20 to-transparent"></div>
@@ -49,5 +53,7 @@ export default function TagList({tags}) {
 
       <div className="absolute bottom-0 left-0 right-0 h-2 pointer-events-none bg-gradient-to-t from-black/20 to-transparent"></div>
     </div>
+
+  </>
   );
 }

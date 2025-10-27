@@ -10,7 +10,7 @@ import Header from './components/Header'
 function App() {
 
   const defaultTags = [{ id: 0, name: "All", color: "#9ED36F" }];
-  const tags = useLocalStorage("agenda:tags", defaultTags);
+  const [tags, setTags] = useLocalStorage("agenda:tags", defaultTags);
 
   return (
     <>

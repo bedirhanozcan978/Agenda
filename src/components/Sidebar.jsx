@@ -24,8 +24,6 @@ export default function Sidebar({tags}) {
       
     <Calendar></Calendar>
 
-    <button className="px-4 text-xl text-ocean">Add Tag +</button>
-
     <TagList tags={tags}></TagList>
 
   </aside>
