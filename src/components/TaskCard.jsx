@@ -1,11 +1,16 @@
-export default function TaskCard({ task }) {
+export default function TaskCard({ task, updateTask }) {
+  
+  const handleToggleDone = () => {
+    updateTask({ ...task, done: !task.done });
+  };
+
   return (
     <div className="bg-creme rounded-xl shadow p-3 flex flex-col justify-between items-start">
       
       <p className="text-xl">{task.title}</p>
 
       <div className="w-full flex flex-row justify-between items-baseline pt-2 text-lg">
-        <div className="flex items-baseline cursor-pointer">
+        <div className="flex items-baseline cursor-pointer" onClick={handleToggleDone}>
           <label htmlFor={`task-${task.id}`} className="flex cursor-pointer space-x-2">
             Done
             <div className="relative ml-1 w-4 h-4">
@@ -20,7 +25,7 @@ export default function TaskCard({ task }) {
 
       <div className="w-full flex flex-row border-t border-gray-600">
         <p className="text-sm pr-1">Tags:</p>
-        <p className="text-sm pr-1 text-blue-600">#{task.tag}</p>
+        <p className="text-sm pr-1 text-blue-600">{task.tag}</p>
       </div>
 
     </div>

@@ -1,6 +1,6 @@
 import {useState, useEffect} from "react";
 
-function Calendar() {
+function Calendar({selectedDay, setSelectedDay}) {
 
   // Month and day states
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -20,7 +20,7 @@ function Calendar() {
     for (let i = prevMonthDays; i > 0; i--) {
       const d = new Date(year, month - 2, prevMonthDate - i + 1);
       days.push({
-        id: d.toISOString().split("T")[0],
+        id: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate(),
@@ -34,7 +34,7 @@ function Calendar() {
     for (let day = 1; day <= daysInMonth; day++) {
       const d = new Date(year, month - 1, day);
       days.push({
-        id: d.toISOString().split("T")[0],
+        id: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
         year: year,
         month: month,
         day: day,
@@ -49,7 +49,7 @@ function Calendar() {
     for (let i = 1; i <= remaining; i++) {
       const d = new Date(year, month, i);
       days.push({
-        id: d.toISOString().split("T")[0],
+        id: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`,
         year: d.getFullYear(),
         month: d.getMonth() + 1,
         day: d.getDate(),
@@ -63,12 +63,18 @@ function Calendar() {
   };
 
   // Calculate days again if month changes
-  useEffect(() => {
+    useEffect(() => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth() + 1;
     const monthDays = generateMonthDays(year, month);
     setDays(monthDays);
-  }, [currentMonth]);
+    if (!selectedDay && setSelectedDay) {
+      const today = new Date();
+      const todayId = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      const todayObj = monthDays.find(d => d.id === todayId);
+      if (todayObj) setSelectedDay(todayObj);
+    }
+  }, [currentMonth, selectedDay, setSelectedDay]);
 
   // Previous and next month buttons
   const handlePrevMonth = () => {
@@ -108,7 +114,7 @@ function Calendar() {
 
       <div className="grid grid-cols-7 gap-1 text-center mt-1">
         {days.map((dayObj) => (
-          <div key={dayObj.id} className={`p-0.5 rounded-lg cursor-pointer transition-colors duration-150 ${dayObj.isCurrentMonth ? "text-black hover:bg-gray-200" : "text-gray-400"}`}>
+          <div key={dayObj.id} onClick={() => setSelectedDay(dayObj)} className={`p-0.5 rounded-lg cursor-pointer transition-colors duration-150 ${dayObj.isCurrentMonth ? "text-black hover:bg-gray-200" : "text-gray-400"}`}>
             {dayObj.day}
           </div>
         ))}
