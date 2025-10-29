@@ -9,8 +9,6 @@ function EditTagModal({ isOpen, onClose, tag, onUpdate, onDelete }) {
   const [color, setColor] = useState(tag?.color || "#000000");
   const [confirmDelete, setConfirmDelete] = useState(false);
 
-  if (!isOpen) return null;
-
   const handleUpdate = (e) => {
     e.preventDefault();
     onUpdate({ ...tag, name, color });

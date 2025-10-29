@@ -90,7 +90,7 @@ export default function TagList({tags, setTags}) {
               <p>{tag.name}</p>
             </div>
             <div>
-              <button onClick={() => {setSelectedTag(tag); setEditTagModalOpen(true);}}><i className="fa fa-pencil w-4 h-4"/></button>
+              <button onClick={() => {setSelectedTag(tag); setEditTagModalOpen(true);}}><i className="fa fa-pencil tex-xs"/></button>
             </div>
           </div>
 

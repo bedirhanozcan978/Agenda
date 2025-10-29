@@ -1,23 +1,10 @@
+import { useState } from "react";
+
+import AddTaskModal from './AddTaskModal';
+import EditTaskModal from './EditTaskModal';
 import TaskCard from './TaskCard'
 
-export default function DayView({ day, tasks, addTask, updateTask }) {
-  
-  const handleAddTask = () => {
-    const title = prompt("Task title?");
-    if (!title) return;
-    const start = prompt("Start time? (HH:mm)") || "09:00";
-    const end = prompt("End time? (HH:mm)") || "10:00";
-
-    addTask({
-      id: Date.now(),
-      dayId: day.id,
-      title,
-      start,
-      end,
-      done: false,
-      tag: "All",
-    });
-  };
+export default function DayView({ day, tasks, addTask, updateTask, deleteTask }) {
 
   //Day Parser
   const getFormattedDate = (date) => {
@@ -35,6 +22,17 @@ export default function DayView({ day, tasks, addTask, updateTask }) {
   const dayDate = new Date(day.year, day.month - 1, day.day);
   const { weekday, day: dayNum, month: monthName, year } = getFormattedDate(dayDate);
 
+  //Add & Edit Modals
+  const [isAddModalOpen, setAddModalOpen] = useState(false);
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
+  const [editingTask, setEditingTask] = useState(null);
+
+  //Task Card Edit Button Handler
+  const handleEditClick = (task) => {
+    setEditingTask(task);
+    setEditModalOpen(true);
+  };
+
   return (
    <>
    <div className="flex p-6 gap-4 font-lalezar">
@@ -46,9 +44,9 @@ export default function DayView({ day, tasks, addTask, updateTask }) {
         </div>
         
         <div className="flex flex-col gap-2">
-          {tasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} />)}
+          {tasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} onEdit={() => handleEditClick(task)}/>)}
 
-          <div className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline" onClick={handleAddTask}>
+          <div className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline" onClick={() => setAddModalOpen(true)}>
             <p>+ Addtask</p>
             <p className="text-gray-600"> --:-- </p>
           </div>
@@ -56,6 +54,8 @@ export default function DayView({ day, tasks, addTask, updateTask }) {
       </div>
 
     </div>
+    <AddTaskModal isOpen={isAddModalOpen} onClose={() => setAddModalOpen(false)} addTask={addTask} day={day}/>
+    <EditTaskModal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)} updateTask={updateTask} deleteTask={deleteTask} day={day} task={editingTask}/>
     </>
   )
 }

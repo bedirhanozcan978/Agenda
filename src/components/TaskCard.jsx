@@ -1,4 +1,4 @@
-export default function TaskCard({ task, updateTask }) {
+export default function TaskCard({ task, updateTask, onEdit }) {
   
   const handleToggleDone = () => {
     updateTask({ ...task, done: !task.done });
@@ -7,7 +7,10 @@ export default function TaskCard({ task, updateTask }) {
   return (
     <div className="bg-creme rounded-xl shadow p-3 flex flex-col justify-between items-start">
       
-      <p className="text-xl">{task.title}</p>
+      <div className="w-full flex flex-row justify-between">
+        <p className="text-xl">{task.title}</p>
+        <button onClick={onEdit}><i className="fa fa-pencil w-4 h-4"/></button>
+      </div>
 
       <div className="w-full flex flex-row justify-between items-baseline pt-2 text-lg">
         <div className="flex items-baseline cursor-pointer" onClick={handleToggleDone}>

@@ -68,7 +68,7 @@ function Calendar({selectedDay, setSelectedDay}) {
     const month = currentMonth.getMonth() + 1;
     const monthDays = generateMonthDays(year, month);
     setDays(monthDays);
-    if (!selectedDay && setSelectedDay) {
+    if (!selectedDay) {
       const today = new Date();
       const todayId = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
       const todayObj = monthDays.find(d => d.id === todayId);

@@ -2,7 +2,6 @@ import { useState } from "react";
 
 function AddTagModal({ isOpen, onClose, onAdd }) {
   
-    const [id, setId] = useState()
     const [name, setName] = useState("");
     const [color, setColor] = useState("#9ED36F");
 

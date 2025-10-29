@@ -24,6 +24,20 @@ function App() {
     localStorage.setItem("agenda:tasks", JSON.stringify(tasks));
   }, [tasks]);
 
+  //CRUD Funtions
+  const addTask = (task) => {
+    setTasks(prev => [...prev, task]);
+  };
+
+  const updateTask = (updatedTask) => {
+    setTasks(prev => prev.map(t => t.id === updatedTask.id ? updatedTask : t));
+  };
+
+  const deleteTask = (taskId) => {
+    setTasks(prev => prev.filter(t => t.id !== taskId));
+  };
+
+  // Filter Tasks
   const tasksForSelectedDay = tasks.filter(
     (t) => t.dayId === selectedDay?.id
   );
@@ -38,10 +52,9 @@ function App() {
           <DayView
             day={selectedDay}
             tasks={tasksForSelectedDay}
-            addTask={(task) => setTasks([...tasks, task])}
-            updateTask={(updatedTask) =>
-              setTasks(tasks.map((t) => (t.id === updatedTask.id ? updatedTask : t)))
-            }
+            addTask={addTask}
+            updateTask={updateTask}
+            deleteTask={deleteTask}
           />
         )}
       </div>
