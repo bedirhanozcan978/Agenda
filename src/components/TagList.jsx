@@ -32,34 +32,20 @@ export default function TagList({tags, setTags}) {
   const [isEditTagModalOpen, setEditTagModalOpen] = useState(false);
   const [selectedTag, setSelectedTag] = useState(null);
 
-  // Add Tag Function
-  useEffect(() => {
-    const savedTags = JSON.parse(localStorage.getItem("tags")) || [];
-    setTags(savedTags);
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("tags", JSON.stringify(tags));
-  }, [tags]);
-
+  // Tags CRUD
   const handleAddTag = (newTag) => {
-    const tagWithId = { ...newTag, id: Date.now() };
-    setTags((prev) => [...prev, tagWithId]);
+    setTags((prev) => [...prev, { ...newTag, id: Date.now() }]);
     setAddModalOpen(false);
   };
 
-  // Edit Tag Function
   const handleUpdateTag = (updatedTag) => {
-  setTags((prevTags) =>
-    prevTags.map((tag) => (tag.id === updatedTag.id ? updatedTag : tag))
-  );
-  setEditTagModalOpen(false);
+    setTags((prev) => prev.map((t) => (t.id === updatedTag.id ? updatedTag : t)));
+    setEditTagModalOpen(false);
   };
 
-  // Delete Tag Function
   const handleDeleteTag = (tagId) => {
-  setTags((prevTags) => prevTags.filter((tag) => tag.id !== tagId));
-  setEditTagModalOpen(false);
+    setTags((prev) => prev.filter((t) => t.id !== tagId));
+    setEditTagModalOpen(false);
   };
 
   return (
