@@ -23,14 +23,14 @@ export default function TaskCard({ task, updateTask, onEdit, tags }) {
 
           </label>
         </div>
-        <p className="text-gray-600">{task.start} / {task.end}</p>
+        <p className="text-gray-950 bg-gray-300 px-2 rounded-full mb-1">{task.start} / {task.end}</p>
       </div>
 
       <div className="w-full flex flex-row border-t border-gray-600">
         <p className="text-sm pr-1">Tags:</p>
         {task.tags.map(tagId => {
           const tagObj = tags.find(t => t.id === tagId);
-          if (!tagObj) return null; // Tag silinmişse hata verme
+          if (!tagObj) return null;
           return (
             <span 
             key={tagId} 

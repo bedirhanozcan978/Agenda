@@ -12,9 +12,11 @@ export default function Header(){
     return () => clearInterval(interval);
   }, []);
 
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
   const dateString = currentTime.toLocaleDateString(undefined, options);
-  const timeString = currentTime.toLocaleTimeString();
+
+  const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+  const timeString = currentTime.toLocaleTimeString(undefined, timeOptions);
 
   return (
     <header className="flex items-center justify-between p-4 border-b border-ocean bg-sand font-lalezar text-2xl">
