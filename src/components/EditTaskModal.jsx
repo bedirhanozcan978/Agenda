@@ -1,29 +1,48 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
-function EditTaskModal({ isOpen, onClose, day, updateTask, deleteTask, task }) {
+function EditTaskModal({ isOpen, onClose, day, updateTask, deleteTask, task, tags }) {
   
   const [name, setName] = useState(task?.title || "");
   const [start, setStart] = useState(task?.start || "09:00");
   const [end, setEnd] = useState(task?.end || "10:00");
-  const [tag, setTag] = useState(task?.tag || "All");  
+  const [selectedTags, setSelectedTags] = useState(updateTask?.tags || [0]);
   const [date, setDate] = useState("");
   const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     if (task) {
       setName(task.title);
       setStart(task.start);
       setEnd(task.end);
-      setTag(task.tag);
+      setSelectedTags(task.tags);
       setDate(`${day.year}-${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}`);
     }
   }, [task]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    if (dropdownOpen) {
+      window.addEventListener("mousedown", handleClickOutside);
+    } else {
+      window.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+    }, [dropdownOpen]);
 
   if (!isOpen || !task) return null;
 
   const handleUpdate = (e) => {
     e.preventDefault();
-    updateTask({ ...task, title: name, start, end, tag});
+    updateTask({ ...task, dayId: date, title: name, start, end, tags: selectedTags});
     onClose();
   };
 
@@ -54,9 +73,40 @@ function EditTaskModal({ isOpen, onClose, day, updateTask, deleteTask, task }) {
                     <input type="time" placeholder="End Time" value={end} id="TaskEnd" className="border px-3 w-45 py-2 rounded" onChange={(e) => setEnd(e.target.value)}/>
                 </label>
                 </div>
-                <label htmlFor="Tags" className="flex flex-col"> Tags*
-                    <input type="text" placeholder="Tag Name" value={tag} id="Tags" className="border px-3 w-100 py-2 rounded" onChange={(e) => setTag(e.target.value)} required/>
-                </label>  
+                <label className="flex flex-col relative" ref={dropdownRef}>
+                  Tags*
+                  <button
+                  type="button"
+                  className="border px-3 py-2 rounded text-left w-full"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  >
+                    {selectedTags.length > 0 
+                    ? `${selectedTags.length} selected` 
+                    : "Select Tags"}
+                  </button>
+
+                  {dropdownOpen && (
+                    <div className="absolute z-50 mt-1 w-full max-h-40 overflow-y-auto border rounded bg-white shadow-lg">
+                      {tags.map(tag => (
+                        <label key={tag.id} className="flex items-center gap-2 px-3 py-1 hover:bg-gray-100 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={selectedTags.includes(tag.id)}
+                            disabled={tag.name === "All"}
+                            onChange={() => {
+                            if (selectedTags.includes(tag.id)) {
+                              setSelectedTags(selectedTags.filter(id => id !== tag.id));
+                            } else {
+                                setSelectedTags([...selectedTags, tag.id]);
+                              }
+                            }}
+                          />
+                            <span style={{ color: tag.color }}>{tag.name}</span>
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                </label>
 
           <div className="flex justify-between items-center mt-2">
             <button type="button" onClick={() => setConfirmDelete(true)} className="px-4 py-2 bg-red-500 text-white rounded">Remove</button>

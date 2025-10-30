@@ -4,7 +4,7 @@ import AddTaskModal from './AddTaskModal';
 import EditTaskModal from './EditTaskModal';
 import TaskCard from './TaskCard'
 
-export default function DayView({ day, tasks, addTask, updateTask, deleteTask }) {
+export default function DayView({ day, tasks, addTask, updateTask, deleteTask, tags }) {
 
   //Day Parser
   const getFormattedDate = (date) => {
@@ -44,7 +44,7 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask })
         </div>
         
         <div className="flex flex-col gap-2">
-          {tasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} onEdit={() => handleEditClick(task)}/>)}
+          {tasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} onEdit={() => handleEditClick(task)} tags={tags}/>)}
 
           <div className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline" onClick={() => setAddModalOpen(true)}>
             <p>+ Addtask</p>
@@ -54,8 +54,8 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask })
       </div>
 
     </div>
-    <AddTaskModal isOpen={isAddModalOpen} onClose={() => setAddModalOpen(false)} addTask={addTask} day={day}/>
-    <EditTaskModal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)} updateTask={updateTask} deleteTask={deleteTask} day={day} task={editingTask}/>
+    <AddTaskModal isOpen={isAddModalOpen} onClose={() => setAddModalOpen(false)} addTask={addTask} day={day} tags={tags}/>
+    <EditTaskModal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)} updateTask={updateTask} deleteTask={deleteTask} day={day} task={editingTask} tags={tags}/>
     </>
   )
 }

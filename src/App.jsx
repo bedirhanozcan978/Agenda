@@ -55,6 +55,7 @@ function App() {
             addTask={addTask}
             updateTask={updateTask}
             deleteTask={deleteTask}
+            tags={tags}
           />
         )}
       </div>

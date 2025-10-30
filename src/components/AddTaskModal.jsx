@@ -1,12 +1,15 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 
-function AddTaskModal({ isOpen, onClose, day, addTask }) {
+function AddTaskModal({ isOpen, onClose, day, addTask, tags }) {
 
     const [name, setName] = useState("");
     const [start, setStart] = useState("09:00");
     const [end, setEnd] = useState("10:00");
-    const [tag, setTag] = useState("All");
+    const [selectedTags, setSelectedTags] = useState(addTask?.tags || [0]);
     const [date, setDate] = useState("");
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef(null);
 
     useEffect(() => {
     if (day) {
@@ -14,18 +17,32 @@ function AddTaskModal({ isOpen, onClose, day, addTask }) {
     }
   }, [day, isOpen]);
 
+    useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    if (dropdownOpen) {
+      window.addEventListener("mousedown", handleClickOutside);
+    } else {
+      window.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => window.removeEventListener("mousedown", handleClickOutside);
+    }, [dropdownOpen]);
+
     if (!isOpen) return null;
 
     const handleSubmit = (e) => {
         e.preventDefault();
         addTask({
             id: Date.now(),
-            dayId: day.id,
+            dayId: date,
             title: name,
             start,
             end,
             done: false,
-            tag,
+            tags: selectedTags,
         });
         onClose();
     };
@@ -52,8 +69,39 @@ function AddTaskModal({ isOpen, onClose, day, addTask }) {
                     <input type="time" placeholder="End Time" value={end} id="TaskEnd" className="border px-3 w-45 py-2 rounded" onChange={(e) => setEnd(e.target.value)}/>
                 </label>
                 </div>
-                <label htmlFor="Tags" className="flex flex-col"> Tags*
-                    <input type="text" placeholder="Tag Name" value={tag} id="Tags" className="border px-3 w-100 py-2 rounded" onChange={(e) => setTag(e.target.value)} required/>
+                <label className="flex flex-col relative" ref={dropdownRef}>
+                    Tags*
+                    <button
+                    type="button"
+                    className="border px-3 py-2 rounded text-left w-full"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    >
+                        {selectedTags.length > 0 
+                        ? `${selectedTags.length} selected` 
+                        : "Select Tags"}
+                    </button>
+
+                    {dropdownOpen && (
+                        <div className="absolute z-50 mt-1 w-full max-h-40 overflow-y-auto border rounded bg-white shadow-lg">
+                            {tags.map(tag => (
+                                <label key={tag.id} className="flex items-center gap-2 px-3 py-1 hover:bg-gray-100 cursor-pointer">
+                                    <input
+                                    type="checkbox"
+                                    checked={selectedTags.includes(tag.id)}
+                                    disabled={tag.name === "All"}
+                                    onChange={() => {
+                                    if (selectedTags.includes(tag.id)) {
+                                        setSelectedTags(selectedTags.filter(id => id !== tag.id));
+                                    } else {
+                                        setSelectedTags([...selectedTags, tag.id]);
+                                    }
+                                    }}
+                                    />
+                                    <span style={{ color: tag.color }}>{tag.name}</span>
+                                </label>
+                            ))}
+                        </div>
+                    )}
                 </label>
 
                 <div className="flex justify-end space-x-2">

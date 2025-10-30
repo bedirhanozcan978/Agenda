@@ -1,4 +1,4 @@
-export default function TaskCard({ task, updateTask, onEdit }) {
+export default function TaskCard({ task, updateTask, onEdit, tags }) {
   
   const handleToggleDone = () => {
     updateTask({ ...task, done: !task.done });
@@ -28,7 +28,19 @@ export default function TaskCard({ task, updateTask, onEdit }) {
 
       <div className="w-full flex flex-row border-t border-gray-600">
         <p className="text-sm pr-1">Tags:</p>
-        <p className="text-sm pr-1 text-blue-600">{task.tag}</p>
+        {task.tags.map(tagId => {
+          const tagObj = tags.find(t => t.id === tagId);
+          if (!tagObj) return null; // Tag silinmişse hata verme
+          return (
+            <span 
+            key={tagId} 
+            style={{ color: tagObj.color }} 
+            className="px-0.5"
+            >
+            #{tagObj.name}
+            </span>
+    );
+  })}
       </div>
 
     </div>
