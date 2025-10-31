@@ -114,7 +114,18 @@ function Calendar({selectedDay, setSelectedDay}) {
 
       <div className="grid grid-cols-7 gap-1 text-center mt-1">
         {days.map((dayObj) => (
-          <div key={dayObj.id} onClick={() => setSelectedDay(dayObj)} className={`p-0.5 rounded-lg cursor-pointer transition-colors duration-150 ${dayObj.isCurrentMonth ? "text-black hover:bg-gray-200" : "text-gray-400"}`}>
+          <div
+          key={dayObj.id}
+          onClick={() => setSelectedDay(dayObj)}
+          className={`p-1 rounded-full cursor-pointer transition-colors duration-150
+          ${
+            dayObj.id === selectedDay?.id
+            ? "bg-ocean text-white font-semibold"
+            : dayObj.isCurrentMonth
+            ? "text-black hover:bg-blue-500 hover:text-white"
+            : "text-gray-400"
+          }`}
+>
             {dayObj.day}
           </div>
         ))}

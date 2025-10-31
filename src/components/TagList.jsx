@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import AddTagModal from "./AddTagModal";
 import EditTagModal from "./EditTagModal";
 
-export default function TagList({tags, setTags}) {
+export default function TagList({tags, setTags, selectedTags, setSelectedTags}) {
 
   // Taglist Scroll Function
   const scrollRef = useRef(null);
@@ -48,6 +48,24 @@ export default function TagList({tags, setTags}) {
     setEditTagModalOpen(false);
   };
 
+  //Selected Tag
+  const toggleTag = (tagId) => {
+
+  if (tagId === 0) return;
+
+  let newSelectedTags = [];
+  if (selectedTags.includes(tagId)) {
+    newSelectedTags = selectedTags.filter(id => id !== tagId);
+  } else {
+
+    newSelectedTags = [...selectedTags.filter(id => id !== 0), tagId]; // All tagini çıkar
+  }
+
+  if (newSelectedTags.length === 0) newSelectedTags = [0];
+
+  setSelectedTags(newSelectedTags);
+  };
+
   return (
   <>  
 
@@ -68,20 +86,26 @@ export default function TagList({tags, setTags}) {
         onMouseMove={handleMouseMove}
         className="overflow-y-auto max-h-50 flex flex-col -my-5 space-y-2 px-4 scrollbar-hide cursor-grab active:cursor-grabbing"
       >
-        { tags && tags.map((tag) => (
-          
-          <div key = {tag.id} className="flex flex-row justify-between text-xl">
-            <div className="flex flex-row">
-              <p style={{ color: tag.color }} className="mr-3">#</p>
-              <p>{tag.name}</p>
+        {tags && tags.map((tag) => {
+          const isSelected = selectedTags.includes(tag.id);
+          return (
+        
+            <div key = {tag.id} className="flex flex-row justify-between text-xl" style={{backgroundColor: isSelected ? tag.color : "transparent",color: isSelected ? "white" : tag.color,}}>
+              <div className="flex flex-row" onClick={() => toggleTag(tag.id)}> 
+                <p style={{color: isSelected ? "white" : tag.color}} className="mr-3">#</p> 
+                <p>{tag.name}</p> 
+              </div> 
+              <div> 
+                {tag.id !== 0 &&
+                  <button onClick={() => {setSelectedTag(tag); setEditTagModalOpen(true);}}>
+                    <i className="fa fa-pencil tex-xs"/>
+                  </button>
+                }
+              </div> 
             </div>
-            <div>
-              <button onClick={() => {setSelectedTag(tag); setEditTagModalOpen(true);}}><i className="fa fa-pencil tex-xs"/></button>
-            </div>
-          </div>
 
-          ))
-        }
+          );
+        })}
 
       </div>
 

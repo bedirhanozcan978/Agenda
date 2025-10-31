@@ -42,10 +42,13 @@ function App() {
     (t) => t.dayId === selectedDay?.id
   );
 
+  //Selected tags
+  const [selectedTags, setSelectedTags] = useState([0]);
+
   return (
     <>
       <div className="flex h-screen bg-sand text-gray-900">
-      <Sidebar tags={tags} setTags={setTags} selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
+      <Sidebar tags={tags} setTags={setTags} selectedDay={selectedDay} setSelectedDay={setSelectedDay} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
       <div className="flex flex-col flex-1">
         <Header />
         {selectedDay && (
@@ -56,6 +59,8 @@ function App() {
             updateTask={updateTask}
             deleteTask={deleteTask}
             tags={tags}
+            selectedTags={selectedTags}
+            selectedDay={selectedDay}
           />
         )}
       </div>

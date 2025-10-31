@@ -4,7 +4,7 @@ import AddTaskModal from './AddTaskModal';
 import EditTaskModal from './EditTaskModal';
 import TaskCard from './TaskCard'
 
-export default function DayView({ day, tasks, addTask, updateTask, deleteTask, tags }) {
+export default function DayView({ day, tasks, addTask, updateTask, deleteTask, tags, selectedTags, selectedDay }) {
 
   //Day Parser
   const getFormattedDate = (date) => {
@@ -53,7 +53,17 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask, t
     const y = e.pageY - el.offsetTop;
     const walk = (y - el.startY)
     el.scrollTop = el.scrollTopStart - walk;
-  };  
+  };
+  
+  //Tag filter
+
+  const filteredTasks = tasks.filter(task => {
+    if (task.dayId !== selectedDay.id) return false;
+
+    if (selectedTags.length === 0 || (selectedTags.length === 1 && selectedTags[0] === 0)) return true;
+
+    return task.tags.some(tagId => selectedTags.includes(tagId));
+  });
 
   return (
    <>
@@ -71,7 +81,7 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask, t
         </div>
         
         <div className="flex flex-col gap-2">
-          {tasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} onEdit={() => handleEditClick(task)} tags={tags}/>)}
+          {filteredTasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} onEdit={() => handleEditClick(task)} tags={tags}/>)}
 
           <div className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline mb-3" onClick={() => setAddModalOpen(true)}>
             <p>+ Addtask</p>
