@@ -8,7 +8,7 @@ export default function Sidebar({tags, setTags, selectedDay, setSelectedDay, sel
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
-    <aside className={`bg-creme shadow-2xl/30 font-lalezar transition-all duration-300 flex flex-col
+    <aside className={`bg-creme shadow-2xl/30 font-lalezar transition-all duration-300 flex flex-col 
       fixed top-0 left-0 h-full z-40
       ${isOpen ? "w-64" : "w-0"}
       ${isOpen ? "" : "overflow-hidden"}
@@ -38,7 +38,7 @@ export default function Sidebar({tags, setTags, selectedDay, setSelectedDay, sel
 
       {/* Calendar & TagList */}
       {isOpen && (
-        <div className="flex-1 overflow-auto">
+        <div className="flex-1 overflow-auto scrollbar-hide">
           <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
           <TagList tags={tags} setTags={setTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
         </div>
