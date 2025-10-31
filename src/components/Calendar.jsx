@@ -120,7 +120,7 @@ function Calendar({selectedDay, setSelectedDay}) {
           className={`p-1 rounded-full cursor-pointer transition-colors duration-150
           ${
             dayObj.id === selectedDay?.id
-            ? "bg-ocean text-white font-semibold"
+            ? "bg-ocean text-white"
             : dayObj.isCurrentMonth
             ? "text-black hover:bg-hoverocean hover:text-white"
             : "text-gray-400"

@@ -17,7 +17,7 @@ export default function TaskCard({ task, updateTask, onEdit, tags }) {
           <label htmlFor={`task-${task.id}`} style={{color: task.done ?"#9ED36F" :"black" }} className="flex cursor-pointer space-x-2">
             Done
             <div className="relative ml-1 w-4 h-4">
-              <input type="checkbox" checked={task.done} className="appearance-none w-full h-full border-2 rounded-full border-gray-600 checked:border-green" />
+              <input type="checkbox" checked={task.done} readOnly className="appearance-none w-full h-full border-2 rounded-full border-gray-600 checked:border-green" />
               {task.done && (<i className={`fa fa-check text-sm text-green absolute inset-0 m-auto`}></i>)}
             </div>  
 
@@ -26,7 +26,7 @@ export default function TaskCard({ task, updateTask, onEdit, tags }) {
         <p className="text-gray-950 bg-gray-300 px-2 rounded-full mb-1">{task.start} / {task.end}</p>
       </div>
 
-      <div className="w-full flex flex-row border-t border-gray-600">
+      <div className="w-full flex flex-row flex-wrap border-t border-gray-600">
         <p className="text-sm pr-1">Tags:</p>
         {task.tags.map(tagId => {
           const tagObj = tags.find(t => t.id === tagId);

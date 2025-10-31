@@ -1,34 +1,49 @@
-import { useState } from "react";
 import Calendar from "./Calendar";
 import TagList from "./TagList";
 import ArrowDown from '../assets/img/arrow-to-line.svg?react';
 
-export default function Sidebar({tags, setTags, selectedDay, setSelectedDay, selectedTags, setSelectedTags, setAddTaskModalOpen}) {
+export default function Sidebar({tags, setTags, selectedDay, setSelectedDay, selectedTags, setSelectedTags, setAddTaskModalOpen, isOpen, setIsOpen}) {
   
-  const [isOpen, setIsOpen] = useState(false);
+  //Sidebar Toggle
   const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
+    <aside className={`bg-creme shadow-2xl/30 font-lalezar transition-all duration-300 flex flex-col
+      fixed top-0 left-0 h-full z-40
+      ${isOpen ? "w-64" : "w-0"}
+      ${isOpen ? "" : "overflow-hidden"}
+      md:relative md:top-auto md:left-auto md:h-auto md:z-auto
+      md:${isOpen ? "w-64" : "w-16"}
+    `}>
 
-   <aside className="w-64 bg-creme flex flex-col items-start shadow-2xl/30 font-lalezar">
-      
-    {/** Logo and Sidebar toogle **/}
-    <div className="flex flex-row w-full p-4 justify-between items-baseline h-3/25">
-      <h1 className="text-4xl text-ocean mb-6">Agenda</h1>
-      <button onClick={toggleSidebar}>
-        <ArrowDown className={`text-ocean w-7 h-7 transform origin-center transition-transform duration-300 ${isOpen ? '-rotate-180' : 'rotate-0'}`} />
-      </button>
-    </div>
-      
-    <div className="w-full flex flex-row justify-center items-center h-3/25">
-    <button className="bg-ocean text-white text-2xl rounded-full px-5 py-2 -pt-1 mb-4 hover:cursor-pointer hover:bg-hoverocean" onClick={() => setAddTaskModalOpen(true)}>+ Create</button>
-    </div>
+      {/* Logo & Toggle */}
+      <div className="flex items-center justify-between p-3 md:p-4">
+        <h1 className={`text-3xl md:text-4xl text-ocean font-bold transition-all duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}>Agenda</h1>
+        <button onClick={toggleSidebar} className="md:hidden">
+                  <ArrowDown className={`text-ocean w-6 md:w-7 h-6 md:h-7 transform transition-transform duration-300 ${isOpen ? 'rotate-0' : '-rotate-180'}`} />
+              </button>
+      </div>
 
-    <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay}></Calendar>
+      {/* Create Button */}
+      {isOpen && (
+        <div className="w-full flex justify-center items-center py-1 md:py-2">
+          <button
+            className="bg-ocean text-white text-lg md:text-2xl rounded-full px-3 md:px-5 py-1 md:py-2 hover:cursor-pointer hover:bg-hoverocean"
+            onClick={() => setAddTaskModalOpen(true)}
+          >
+            + Create
+          </button>
+        </div>
+      )}
 
-    <TagList tags={tags} setTags={setTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags}></TagList>
-
-  </aside>
+      {/* Calendar & TagList */}
+      {isOpen && (
+        <div className="flex-1 overflow-auto">
+          <Calendar selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
+          <TagList tags={tags} setTags={setTags} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+        </div>
+      )}
+    </aside>
 
   )
 }

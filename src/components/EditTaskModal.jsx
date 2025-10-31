@@ -55,22 +55,22 @@ function EditTaskModal({ isOpen, onClose, day, updateTask, deleteTask, task, tag
   return (
     <>
       <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
-        <div className="fixed top-1/2 font-lalezar left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-creme p-6 rounded-xl z-50 w-120 flex flex-col items-center shadow-lg">
+        <div className="fixed top-1/2 font-lalezar left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-creme p-6 rounded-xl z-50 w-11/12 max-w-md md:max-w-xl flex flex-col items-center shadow-lg">
             <h2 className="text-xl mb-3">Edit Task</h2>
-            <form className="flex flex-col space-y-3" onSubmit={handleUpdate}>
+            <form className="flex flex-col w-full space-y-3" onSubmit={handleUpdate}>
                 <label htmlFor="Taskname" className="flex flex-col"> Task Date*
-                    <input type="date" placeholder="Task Date" value={date} id="Taskname" className="border px-3 w-100 py-2 rounded" onChange={(e) => setDate(e.target.value)} required/>
+                    <input type="date" placeholder="Task Date" value={date} id="Taskname" className="border px-3 w-full py-2 rounded" onChange={(e) => setDate(e.target.value)} required/>
                 </label>
                 <label htmlFor="Taskname" className="flex flex-col"> Task Name*
-                    <input type="text" placeholder="Task Name" value={name} id="Taskname" className="border px-3 w-100 py-2 rounded" onChange={(e) => setName(e.target.value)} required/>
+                    <input type="text" placeholder="Task Name" value={name} id="Taskname" className="border px-3 w-full py-2 rounded" onChange={(e) => setName(e.target.value)} required/>
                 </label>
-                <div className="w-100 flex flex-row justify-between">
+                <div className="w-full flex flex-col sm:flex-row justify-between gap-3">
                 <label htmlFor="TaskStart" className="flex flex-col"> Start Time*
-                    <input type="time" placeholder="Start Time" value={start} id="TaskStart" className="border px-3 w-45 py-2 rounded" onChange={(e) => setStart(e.target.value)}/>
+                    <input type="time" placeholder="Start Time" value={start} id="TaskStart" className="border px-3 w-full py-2 rounded" onChange={(e) => setStart(e.target.value)}/>
                 </label>
 
                 <label htmlFor="TaskEnd" className="flex flex-col"> End Time*
-                    <input type="time" placeholder="End Time" value={end} id="TaskEnd" className="border px-3 w-45 py-2 rounded" onChange={(e) => setEnd(e.target.value)}/>
+                    <input type="time" placeholder="End Time" value={end} id="TaskEnd" className="border px-3 w-full py-2 rounded" onChange={(e) => setEnd(e.target.value)}/>
                 </label>
                 </div>
                 <label className="flex flex-col relative" ref={dropdownRef}>

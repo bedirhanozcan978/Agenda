@@ -18,11 +18,11 @@ function EditTagModal({ isOpen, onClose, tag, onUpdate, onDelete }) {
   return (
     <>
       <div className="fixed inset-0 bg-black/50 z-40" onClick={onClose} />
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-creme p-6 rounded-xl z-50 w-80 shadow-lg">
+      <div className="fixed top-1/2 font-lalezar left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-creme p-6 rounded-xl z-50 w-11/12 max-w-lg md:max-w-sm flex flex-col items-center shadow-lg">
         <h2 className="text-xl mb-1">Edit Tag</h2>
-        <form onSubmit={handleUpdate} className="flex flex-col space-y-3">
+        <form onSubmit={handleUpdate} className="flex flex-col w-full space-y-3">
           <label htmlFor="tagname"> Tag Name*
-            <input type="text" value={name} id="tagname" className="border px-3 py-2 rounded" onChange={(e) => setName(e.target.value)} required/>
+            <input type="text" value={name} id="tagname" className="border px-3 w-full py-2 rounded" onChange={(e) => setName(e.target.value)} required/>
           </label>
 
           <label htmlFor="tagcolor"> Custom Color<br/>
