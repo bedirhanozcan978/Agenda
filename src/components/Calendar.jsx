@@ -122,7 +122,7 @@ function Calendar({selectedDay, setSelectedDay}) {
             dayObj.id === selectedDay?.id
             ? "bg-ocean text-white font-semibold"
             : dayObj.isCurrentMonth
-            ? "text-black hover:bg-blue-500 hover:text-white"
+            ? "text-black hover:bg-hoverocean hover:text-white"
             : "text-gray-400"
           }`}
 >

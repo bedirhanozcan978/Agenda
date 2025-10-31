@@ -9,12 +9,12 @@ export default function TaskCard({ task, updateTask, onEdit, tags }) {
       
       <div className="w-full flex flex-row justify-between">
         <p className="text-xl">{task.title}</p>
-        <button onClick={onEdit}><i className="fa fa-pencil w-4 h-4"/></button>
+        <button onClick={onEdit}><i className="fa fa-pencil w-4 h-4 hover:cursor-pointer"/></button>
       </div>
 
       <div className="w-full flex flex-row justify-between items-baseline pt-2 text-lg">
         <div className="flex items-baseline cursor-pointer" onClick={handleToggleDone}>
-          <label htmlFor={`task-${task.id}`} className="flex cursor-pointer space-x-2">
+          <label htmlFor={`task-${task.id}`} style={{color: task.done ?"#9ED36F" :"black" }} className="flex cursor-pointer space-x-2">
             Done
             <div className="relative ml-1 w-4 h-4">
               <input type="checkbox" checked={task.done} className="appearance-none w-full h-full border-2 rounded-full border-gray-600 checked:border-green" />

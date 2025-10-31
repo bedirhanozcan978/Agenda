@@ -67,7 +67,7 @@ export default function TagList({tags, setTags, selectedTags, setSelectedTags}) 
   };
 
   return (
-  <>  
+  <div className="w-full max-w-md mx-auto py-5">  
 
     <EditTagModal isOpen={isEditTagModalOpen} tag={selectedTag} onClose={() => setEditTagModalOpen(false)} onUpdate={handleUpdateTag} onDelete={handleDeleteTag}/>
 
@@ -112,6 +112,6 @@ export default function TagList({tags, setTags, selectedTags, setSelectedTags}) 
       <div className="absolute bottom-0 left-0 right-0 h-2 pointer-events-none bg-gradient-to-t from-black/20 to-transparent"></div>
     </div>
 
-  </>
+  </div>
   );
 }

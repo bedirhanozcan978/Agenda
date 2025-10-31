@@ -45,12 +45,18 @@ function App() {
   //Selected tags
   const [selectedTags, setSelectedTags] = useState([0]);
 
+// AddTask Modal
+  const [isAddTaskModalOpen, setAddTaskModalOpen] = useState(false);
+
   return (
     <>
       <div className="flex h-screen bg-sand text-gray-900">
-      <Sidebar tags={tags} setTags={setTags} selectedDay={selectedDay} setSelectedDay={setSelectedDay} selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
+      <Sidebar tags={tags} setTags={setTags} 
+      selectedDay={selectedDay} setSelectedDay={setSelectedDay} 
+      selectedTags={selectedTags} setSelectedTags={setSelectedTags} 
+      setAddTaskModalOpen={setAddTaskModalOpen}/>
       <div className="flex flex-col flex-1">
-        <Header />
+        <Header setSelectedDay={setSelectedDay}/>
         {selectedDay && (
           <DayView
             day={selectedDay}
@@ -61,6 +67,8 @@ function App() {
             tags={tags}
             selectedTags={selectedTags}
             selectedDay={selectedDay}
+            isAddTaskModalOpen={isAddTaskModalOpen}
+            setAddTaskModalOpen={setAddTaskModalOpen}
           />
         )}
       </div>

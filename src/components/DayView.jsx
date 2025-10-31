@@ -4,7 +4,7 @@ import AddTaskModal from './AddTaskModal';
 import EditTaskModal from './EditTaskModal';
 import TaskCard from './TaskCard'
 
-export default function DayView({ day, tasks, addTask, updateTask, deleteTask, tags, selectedTags, selectedDay }) {
+export default function DayView({ day, tasks, addTask, updateTask, deleteTask, tags, selectedTags, selectedDay, isAddTaskModalOpen, setAddTaskModalOpen }) {
 
   //Day Parser
   const getFormattedDate = (date) => {
@@ -23,7 +23,6 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask, t
   const { weekday, day: dayNum, month: monthName, year } = getFormattedDate(dayDate);
 
   //Add & Edit Modals
-  const [isAddModalOpen, setAddModalOpen] = useState(false);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
@@ -83,7 +82,7 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask, t
         <div className="flex flex-col gap-2">
           {filteredTasks.map(task => <TaskCard key={task.id} task={task} updateTask={updateTask} deleteTask={deleteTask} onEdit={() => handleEditClick(task)} tags={tags}/>)}
 
-          <div className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline mb-3" onClick={() => setAddModalOpen(true)}>
+          <div className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline mb-3 hover:cursor-pointer hover:bg-hovercreme" onClick={() => setAddTaskModalOpen(true)}>
             <p>+ Addtask</p>
             <p className="text-gray-950 bg-gray-300 px-2 rounded-full"> --:-- </p>
           </div>
@@ -91,7 +90,7 @@ export default function DayView({ day, tasks, addTask, updateTask, deleteTask, t
       </div>
 
     </div>
-    <AddTaskModal isOpen={isAddModalOpen} onClose={() => setAddModalOpen(false)} addTask={addTask} day={day} tags={tags}/>
+    <AddTaskModal isOpen={isAddTaskModalOpen} onClose={() => setAddTaskModalOpen(false)} addTask={addTask} day={day} tags={tags}/>
     <EditTaskModal isOpen={isEditModalOpen} onClose={() => setEditModalOpen(false)} updateTask={updateTask} deleteTask={deleteTask} day={day} task={editingTask} tags={tags}/>
     </>
   )
