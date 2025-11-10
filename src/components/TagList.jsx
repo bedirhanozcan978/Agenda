@@ -84,13 +84,13 @@ export default function TagList({tags, setTags, selectedTags, setSelectedTags}) 
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
-        className="overflow-y-auto max-h-50 flex flex-col -my-5 space-y-2 px-4 scrollbar-hide cursor-grab active:cursor-grabbing"
+        className="overflow-y-auto max-h-50 flex flex-col -my-5 space-y-2 scrollbar-hide cursor-grab active:cursor-grabbing"
       >
         {tags && tags.map((tag) => {
           const isSelected = selectedTags.includes(tag.id);
           return (
         
-            <div key = {tag.id} className="flex flex-row justify-between text-xl" style={{backgroundColor: isSelected ? tag.color : "transparent",color: isSelected ? "white" : tag.color,}}>
+            <div key = {tag.id} className="flex flex-row justify-between px-4 text-xl" style={{backgroundColor: isSelected ? tag.color : "transparent",color: isSelected ? "white" : tag.color,}}>
               <div className="flex flex-row" onClick={() => toggleTag(tag.id)}> 
                 <p style={{color: isSelected ? "white" : tag.color}} className="mr-3">#</p> 
                 <p>{tag.name}</p> 
