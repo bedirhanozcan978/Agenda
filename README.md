@@ -1,7 +1,7 @@
 # 📒 Agenda
 A modern, responsive daily agenda built with React, Vite, and Tailwind CSS. Supports task creation, editing, filtering by tags, and a calendar view. Designed to be elegant and functional on both desktop and mobile.
 <p align="center">
-<a href= "https://github.com/bedirhanozcanf978/Agenda/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"/></a>
+<a href= "https://github.com/bedirhanozcan978/Agenda/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg"/></a>
 <img src="https://img.shields.io/github/last-commit/bedirhanozcan978/Agenda?style=plastic"/>
 <img src="https://img.shields.io/github/issues/bedirhanozcan978/Agenda?style=plastic"/>
 <img src="https://img.shields.io/packagist/dt/bedirhanozcan978/Agenda?style=plastic"/>
