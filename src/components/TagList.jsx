@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import useTaskContext from '../hooks/useTaskContext'; 
 import AddTagModal from "./AddTagModal";
 import EditTagModal from "./EditTagModal";
-
+import useMouseDragScroll from '../hooks/useMouseDragScroll';
 
 export default function TagList() { 
     
@@ -16,27 +16,13 @@ export default function TagList() {
         handleDeleteTag
     } = useTaskContext();
 
-
-    const scrollRef = useRef(null);
-
-    const handleMouseDown = (e) => {
-        const el = scrollRef.current;
-        el.isDown = true;
-        el.startY = e.pageY - el.offsetTop;
-        el.scrollTopStart = el.scrollTop;
-    };
-
-    const handleMouseLeave = () => (scrollRef.current.isDown = false);
-    const handleMouseUp = () => (scrollRef.current.isDown = false);
-
-    const handleMouseMove = (e) => {
-        const el = scrollRef.current;
-        if (!el.isDown) return;
-        e.preventDefault();
-        const y = e.pageY - el.offsetTop;
-        const walk = (y - el.startY)
-        el.scrollTop = el.scrollTopStart - walk;
-    };     
+    const { 
+        scrollRef,
+        handleMouseDown,
+        handleMouseLeave,
+        handleMouseUp,
+        handleMouseMove
+    } = useMouseDragScroll();
 
     // Add & Edit Modals
     const [isAddModalOpen, setAddModalOpen] = useState(false);

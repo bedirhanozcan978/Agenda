@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage.jsx';
+import { getFormattedDate, addDays, formatDateId } from '../utils/dateUtils.js';
 
 export const TaskContext = createContext();
 
@@ -48,18 +49,42 @@ export function TaskProvider({ children }) {
     };
 
     // Filtering Functions
-    const filteredTasks = useMemo(() => {
-        if (!selectedDay) return [];
+    const multiDayData = useMemo(() => {
+    if (!selectedDay) {return {};};
 
-        const dailyTasks = tasks.filter(t => t.dayId === selectedDay.id);
+    const startDate = new Date(selectedDay.year, selectedDay.month - 1, selectedDay.day);
 
-        if (selectedTags.length === 0 || (selectedTags.length === 1 && selectedTags[0] === 0)) {
-            return dailyTasks;
+    const dayObjects = [];
+    
+    for (let i = 0; i < 3; i++) {
+        const currentDayDate = addDays(startDate, i);
+        
+        dayObjects.push({
+            date: currentDayDate,
+            id: formatDateId(currentDayDate),
+            ...getFormattedDate(currentDayDate)
+        });
+    }
+
+    const tasksForDisplayDays = tasks.filter(task => 
+        dayObjects.some(day => day.id === task.dayId)
+    );
+    
+    const finalFilteredTasks = tasksForDisplayDays.filter(task => {
+        if (selectedTags.length === 1 && selectedTags.includes(0)) {
+            return true;
         }
+        return task.tags.some(tagId => selectedTags.includes(tagId));
+    });
 
-        return dailyTasks.filter(task => 
-            task.tags.some(tagId => selectedTags.includes(tagId))
-        );
+    const multiDayView = dayObjects.map(dayObj => {
+        const tasksForThisDay = finalFilteredTasks.filter(t => t.dayId === dayObj.id);
+        
+        return {...dayObj, tasks: tasksForThisDay,};
+    });
+
+    return {multiDayView};
+
     }, [tasks, selectedDay, selectedTags]);
 
     const contextValue = {
@@ -85,7 +110,7 @@ export function TaskProvider({ children }) {
         handleDeleteTag,
         
         // Filtered tasks
-        filteredTasks,
+        multiDayView: multiDayData.multiDayView,
         allTasks: tasks,
     };
 

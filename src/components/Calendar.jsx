@@ -1,74 +1,15 @@
 import {useState, useEffect} from "react";
 import useTaskContext from '../hooks/useTaskContext';
-
-// Helper Function
-const formatDateId = (d) => 
-  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-
+import { formatDateId } from '../utils/dateUtils';
+import { generateMonthDays } from '../utils/calendarUtils'
 
 function Calendar() {
     
     const { selectedDay, setSelectedDay } = useTaskContext();
 
-    // Month and day states
-    const [currentMonth, setCurrentMonth] = useState(new Date());
-    const [days, setDays] = useState([]);
-
-    // Generator of month days - Note: Will carry this in the utils file
-    const generateMonthDays = (year, month) => {
-        const days = [];
-        const firstDayOfMonth = new Date(year, month - 1, 1);
-        const daysInMonth = new Date(year, month, 0).getDate();
-        const startDay = firstDayOfMonth.getDay();
-
-        // Add previous month's days
-        const prevMonthDays = startDay === 0 ? 6 : startDay - 1;
-        const prevMonthDate = new Date(year, month - 1, 0).getDate();
-
-        for (let i = prevMonthDays; i > 0; i--) {
-            const d = new Date(year, month - 2, prevMonthDate - i + 1);
-            days.push({
-                id: formatDateId(d),
-                year: d.getFullYear(),
-                month: d.getMonth() + 1,
-                day: d.getDate(),
-                weekday: d.getDay(),
-                isCurrentMonth: false,
-                tasks: [],
-            });
-        }
-
-        // Current month's days
-        for (let day = 1; day <= daysInMonth; day++) {
-            const d = new Date(year, month - 1, day);
-            days.push({
-                id: formatDateId(d),
-                year: year,
-                month: month,
-                day: day,
-                weekday: d.getDay(),
-                isCurrentMonth: true,
-                tasks: [],
-            });
-        }
-
-        // Next month's days
-        const remaining = 42 - days.length;
-        for (let i = 1; i <= remaining; i++) {
-            const d = new Date(year, month, i);
-            days.push({
-                id: formatDateId(d),
-                year: d.getFullYear(),
-                month: d.getMonth() + 1,
-                day: d.getDate(),
-                weekday: d.getDay(),
-                isCurrentMonth: false,
-                tasks: [],
-            });
-        }
-
-        return days;
-    };
+    // Month and day states
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [days, setDays] = useState([]);
 
     // Calculate days again if month changes
     useEffect(() => {
@@ -117,18 +58,18 @@ function Calendar() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center font-medium">
+            <div className="grid grid-cols-7 gap-1 text-center font-lg">
                 {weekdays.map((day, index) => (
                     <div key={index}>{day}</div>
                 ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center mt-1">
+            <div className="grid grid-cols-7 gap-1 text-center mt-1 font-lg">
                 {days.map((dayObj) => (
                     <div
                     key={dayObj.id}
                     onClick={() => setSelectedDay(dayObj)}
-                    className={`p-1 rounded-full cursor-pointer transition-colors duration-150
+                    className={`p-0.5 rounded-full cursor-pointer transition-colors duration-150
                       ${
                         dayObj.id === selectedDay?.id
                         ? "bg-ocean text-white"
@@ -136,7 +77,7 @@ function Calendar() {
                         ? "text-black hover:bg-hoverocean hover:text-white"
                         : "text-gray-400"
                       }`}
->
+                    >
                         {dayObj.day}
                     </div>
                 ))}

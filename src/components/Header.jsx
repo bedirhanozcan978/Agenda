@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import useTaskContext from '../hooks/useTaskContext'; 
 import ArrowDown from '../assets/img/arrow-to-line.svg?react';
+import { formatDateId } from '../utils/dateUtils';
 
 export default function Header() { 
 
@@ -23,11 +24,10 @@ export default function Header() {
   const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
   const timeString = currentTime.toLocaleTimeString(undefined, timeOptions);
   
-  // Note: Will carry this in the utils file
   const handleTodayClick = () => {
     const today = new Date();
     setSelectedDay({
-      id: `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`,
+      id: formatDateId(today),
       year: today.getFullYear(),
       month: today.getMonth() + 1,
       day: today.getDate()
