@@ -16,6 +16,17 @@ export default function DayColumn ({dayData}){
         setEditModalOpen(true);
     };
 
+    const getLastHour = () => {
+        if (dayData.tasks.length === 0) {
+            return "09:00";
+        }
+
+        const i = dayData.tasks.length;
+        const lastHour = dayData.tasks[i-1];
+        return lastHour.end;
+    };
+    const nexTaskTime = getLastHour();
+
     return (
         <div className="flex-1 min-w-0">
             <div className="px-4 flex flex-row items-baseline justify-between">
@@ -33,7 +44,7 @@ export default function DayColumn ({dayData}){
                     onClick={() => setAddTaskModalOpen(true)}
                 >
                     <p>+ Addtask</p>
-                    <p className="text-gray-950 bg-gray-300 px-2 rounded-full"> --:-- </p>
+                    <p className="text-gray-950 bg-gray-300 px-2 rounded-full"> {nexTaskTime} </p>
                 </div>
             </div>
         </div>
