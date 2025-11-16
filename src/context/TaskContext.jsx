@@ -21,6 +21,8 @@ export function TaskProvider({ children }) {
     const [isEditModalOpen, setEditModalOpen] = useState(false);
     const [editingTask, setEditingTask] = useState(null);
 
+    const [clickedDay, setClickedDay] = useState(null);
+
     
     // Seçili Etiketler
     const [selectedTags, setSelectedTags] = useState([0]);
@@ -108,6 +110,8 @@ export function TaskProvider({ children }) {
         setEditModalOpen,
         editingTask,
         setEditingTask,
+        clickedDay,
+        setClickedDay,
         
         //Sidebar
         isOpen,

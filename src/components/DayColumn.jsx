@@ -7,13 +7,23 @@ export default function DayColumn ({dayData}){
     const {  
             setAddTaskModalOpen,
             setEditModalOpen,
-            setEditingTask 
+            setEditingTask,
+            setClickedDay,
+            selectedDay,
+            clickedDay 
         } = useTaskContext();
 
     // Task Card Edit Button Handler
     const handleEditClick = (task) => {
         setEditingTask(task);
         setEditModalOpen(true);
+    };
+
+    const handleAddTaskClick = (task) => {
+        setClickedDay(dayData);
+        console.log(clickedDay);
+        console.log(task);
+        setAddTaskModalOpen(true);
     };
 
     const getLastHour = () => {
@@ -41,7 +51,7 @@ export default function DayColumn ({dayData}){
                     
                 <div 
                     className="bg-creme rounded-xl text-xl shadow p-3 flex flex-row justify-between items-baseline mb-3 hover:cursor-pointer hover:bg-hovercreme" 
-                    onClick={() => setAddTaskModalOpen(true)}
+                    onClick={() => handleAddTaskClick(dayData)}
                 >
                     <p>+ Addtask</p>
                     <p className="text-gray-950 bg-gray-300 px-2 rounded-full"> {nexTaskTime} </p>

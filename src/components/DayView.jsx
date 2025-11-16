@@ -20,7 +20,8 @@ export default function DayView() {
         isEditModalOpen,
         setEditModalOpen,
         editingTask,
-        setEditingTask
+        setEditingTask,
+        clickedDay
     } = useTaskContext();
 
     const { 
@@ -55,7 +56,7 @@ export default function DayView() {
             isOpen={isAddTaskModalOpen} 
             onClose={() => setAddTaskModalOpen(false)} 
             addTask={addTask}
-            day={selectedDay} 
+            day={clickedDay}
             tags={tags}
         />
         <EditTaskModal 
@@ -63,7 +64,7 @@ export default function DayView() {
             onClose={() => setEditModalOpen(false)} 
             updateTask={updateTask}
             deleteTask={deleteTask}
-            day={selectedDay} 
+            day={clickedDay} 
             task={editingTask} 
             tags={tags}
         />

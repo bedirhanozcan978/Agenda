@@ -1,6 +1,6 @@
 import { useState,useEffect, useRef } from "react";
 
-function AddTaskModal({ isOpen, onClose, day, addTask, tags }) {
+function AddTaskModal({ isOpen, onClose, day, addTask, tags, selectedDay }) {
 
     const [name, setName] = useState("");
     const [start, setStart] = useState("09:00");
@@ -13,7 +13,7 @@ function AddTaskModal({ isOpen, onClose, day, addTask, tags }) {
 
     useEffect(() => {
     if (day) {
-      setDate(`${day.year}-${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}`);
+      setDate(day.id);
     }
   }, [day, isOpen]);
 

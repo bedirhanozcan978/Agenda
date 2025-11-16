@@ -13,14 +13,14 @@ function EditTaskModal({ isOpen, onClose, day, updateTask, deleteTask, task, tag
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    if (task) {
+    if (task && day && day.month) {
       setName(task.title);
       setStart(task.start);
       setEnd(task.end);
       setSelectedTags(task.tags);
-      setDate(`${day.year}-${String(day.month).padStart(2, "0")}-${String(day.day).padStart(2, "0")}`);
+      setDate(task.dayId);
     }
-  }, [task]);
+  }, [task, day]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
