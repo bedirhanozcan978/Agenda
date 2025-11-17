@@ -24,7 +24,7 @@ export function TaskProvider({ children }) {
     const [clickedDay, setClickedDay] = useState(null);
 
     
-    // Seçili Etiketler
+    // Selected Tags
     const [selectedTags, setSelectedTags] = useState([0]);
 
     // Selected Day
@@ -32,7 +32,6 @@ export function TaskProvider({ children }) {
 
 
     // Task CRUD Functions
-
     const addTask = (task) => setTasks(prev => [...prev, task]);
     
     const updateTask = (updatedTask) => {

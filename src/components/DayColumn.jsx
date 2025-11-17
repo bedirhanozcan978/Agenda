@@ -8,9 +8,7 @@ export default function DayColumn ({dayData}){
             setAddTaskModalOpen,
             setEditModalOpen,
             setEditingTask,
-            setClickedDay,
-            selectedDay,
-            clickedDay 
+            setClickedDay
         } = useTaskContext();
 
     // Task Card Edit Button Handler
@@ -21,8 +19,6 @@ export default function DayColumn ({dayData}){
 
     const handleAddTaskClick = (task) => {
         setClickedDay(dayData);
-        console.log(clickedDay);
-        console.log(task);
         setAddTaskModalOpen(true);
     };
 
