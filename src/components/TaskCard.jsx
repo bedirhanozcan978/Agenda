@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
-import useTaskContext from '../hooks/useTaskContext'; 
+import useTaskContext from '../hooks/useTaskContext';
+import { formatDateId } from "../utils/dateUtils";
 
 export default function TaskCard({ task, onEdit }) { 
     
@@ -25,7 +26,7 @@ export default function TaskCard({ task, onEdit }) {
     const startMinutes = timeToMinutes(task.start);
     const endMinutes = timeToMinutes(task.end);
 
-    const isTaskActive = task.dayId == selectedDay.id && currentMinutes >= startMinutes && currentMinutes < endMinutes;
+    const isTaskActive = task.dayId == formatDateId(new Date()) && currentMinutes >= startMinutes && currentMinutes < endMinutes;
 
 
     const timeBgClass = isTaskActive ? 'bg-green text-white' : 'bg-gray-300 text-gray-950';
