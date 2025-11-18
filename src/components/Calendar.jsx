@@ -1,11 +1,29 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, useMemo} from "react";
 import useTaskContext from '../hooks/useTaskContext';
-import { formatDateId } from '../utils/dateUtils';
+import { formatDateId, addDays } from '../utils/dateUtils';
 import { generateMonthDays } from '../utils/calendarUtils'
 
 function Calendar() {
     
     const { selectedDay, setSelectedDay } = useTaskContext();
+
+    // Days highlight
+    const highlightedDays = useMemo(() => {
+        if (!selectedDay) return [];
+
+        const dayList = [];
+        
+        const startDate = new Date(selectedDay.year, selectedDay.month - 1, selectedDay.day);
+
+        for (let i = 0; i < 3; i++) {
+            const date = addDays(startDate, i);
+            dayList.push(formatDateId(date));
+        }
+
+        return dayList;
+    }, [selectedDay]);
+
+    const processedDayIds = new Set();
 
     // Month and day states
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -44,7 +62,6 @@ function Calendar() {
     const weekdays = ["M", "T", "W", "T", "F", "S", "S"];
 
     return(
-        // max-w-md ve mx-auto, Sidebar içinde gereksiz olduğundan kaldırıldı.
         <div className="w-full p-4">  
             <div className="w-full px-2 flex flex-row justify-between">
                 <div>
@@ -58,29 +75,60 @@ function Calendar() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-7 gap-1 text-center font-lg">
-                {weekdays.map((day, index) => (
-                    <div key={index}>{day}</div>
-                ))}
-            </div>
+            <div className="grid grid-cols-7 gap-1 text-center font-lg">
+                {weekdays.map((day, index) => (
+                    <div key={index}>{day}</div>
+                ))}
+            </div>
+            
+            <div className="grid grid-cols-7 gap-0 text-center mt-1 font-lg">
+                {days.map((dayObj, index) => {
+                    const isSelected = dayObj.id === selectedDay?.id;
+                    const dayId = dayObj.id;
+                    const isDayOne = highlightedDays[0] === dayId;
+                    const isDayTwo = highlightedDays[1] === dayId;
+                    const isDayThree = highlightedDays[2] === dayId;
 
-            <div className="grid grid-cols-7 gap-1 text-center mt-1 font-lg">
-                {days.map((dayObj) => (
-                    <div
-                    key={dayObj.id}
-                    onClick={() => setSelectedDay(dayObj)}
-                    className={`p-0.5 rounded-full cursor-pointer transition-colors duration-150
-                      ${
-                        dayObj.id === selectedDay?.id
-                        ? "bg-ocean text-white"
-                        : dayObj.isCurrentMonth
-                        ? "text-black hover:bg-hoverocean hover:text-white"
-                        : "text-gray-400"
-                      }`}
-                    >
-                        {dayObj.day}
-                    </div>
-                ))}
+                let dayContainerClass = '';
+                let dayNumberClass = '';
+
+                if (isDayOne || isDayTwo || isDayThree) {
+                    
+                    dayContainerClass += 'bg-none md:bg-cyan ';
+                    
+                    if (isDayOne) {
+                        dayContainerClass += ' rounded-l-full ';
+                    }
+                    if (isDayThree) {
+                        dayContainerClass += ' rounded-r-full ';
+                    }
+                    
+                    if (isSelected) {
+                        dayNumberClass = ' bg-ocean text-white rounded-full'; 
+                    } else {
+                        dayNumberClass = ' text-black hover:bg-hoverocean hover:text-white rounded-full';
+                    }
+
+                } else if (isSelected) {
+                    dayContainerClass = "bg-ocean text-white rounded-full";
+                } else if (dayObj.isCurrentMonth) {
+                    dayContainerClass = "text-black hover:bg-hoverocean hover:text-white rounded-full";
+                } else {
+                    dayContainerClass = "text-gray-400";
+                }
+                
+                return (
+                <div
+                key={dayObj.id}
+                onClick={() => setSelectedDay(dayObj)}
+                className={`cursor-pointer transition-colors duration-150 relative flex items-center justify-center ${dayContainerClass}`}
+                >
+                    <div className={`p-0.5 w-8 h-8 flex items-center justify-center ${dayNumberClass}`}>
+                        {dayObj.day}
+                    </div>
+                </div>
+                
+                )})}
             </div>
 
         </div> 
